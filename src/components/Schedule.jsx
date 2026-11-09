@@ -1,13 +1,14 @@
 import { useState } from 'react'
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { ArrowUpRight, Clock } from 'lucide-react'
 import { links, scheduleDays } from '../data/site'
+import useMotionReady from '../hooks/useMotionReady'
 import SectionHeading from './ui/SectionHeading'
 import Reveal from './ui/Reveal'
 
 export default function Schedule() {
   const [active, setActive] = useState(scheduleDays[0].id)
-  const reduce = useReducedMotion()
+  const motionReady = useMotionReady()
   const day = scheduleDays.find((entry) => entry.id === active) ?? scheduleDays[0]
 
   return (
@@ -108,9 +109,9 @@ export default function Schedule() {
 
             <motion.ol
               key={day.id}
-              initial={reduce ? { opacity: 0 } : { opacity: 0, y: 14 }}
+              initial={motionReady ? { opacity: 0, y: 14 } : false}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: reduce ? 0 : 0.35, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
               className="relative mt-2"
             >
               <span

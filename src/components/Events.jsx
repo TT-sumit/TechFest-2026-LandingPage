@@ -1,7 +1,8 @@
 import { useMemo, useState } from 'react'
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion } from 'framer-motion'
 import { ArrowUpRight, Plus } from 'lucide-react'
 import { eventCategories, events, festival, links } from '../data/site'
+import useMotionReady from '../hooks/useMotionReady'
 import SectionHeading from './ui/SectionHeading'
 import Reveal from './ui/Reveal'
 import ActionLink from './ui/ActionLink'
@@ -13,7 +14,7 @@ export default function Events() {
   const [category, setCategory] = useState('all')
   const [selected, setSelected] = useState(null)
   const [open, setOpen] = useState(false)
-  const reduce = useReducedMotion()
+  const motionReady = useMotionReady()
 
   const counts = useMemo(() => {
     const map = { all: events.length }
@@ -105,11 +106,11 @@ export default function Events() {
           {filtered.map((event, index) => (
             <motion.article
               key={event.id}
-              initial={{ opacity: 0, y: reduce ? 0 : 16 }}
+              initial={motionReady ? { opacity: 0, y: 16 } : false}
               animate={{ opacity: 1, y: 0 }}
               transition={{
-                duration: reduce ? 0 : 0.4,
-                delay: reduce ? 0 : Math.min(index, 6) * 0.045,
+                duration: 0.4,
+                delay: Math.min(index, 6) * 0.045,
                 ease: [0.16, 1, 0.3, 1],
               }}
               className="group relative flex h-full flex-col justify-between overflow-hidden border border-line bg-panel/50 p-5 card-hover sm:p-6"

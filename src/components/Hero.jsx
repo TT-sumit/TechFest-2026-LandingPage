@@ -5,6 +5,7 @@ import { festival, links } from '../data/site'
 import ActionLink from './ui/ActionLink'
 import Countdown from './Countdown'
 import ParticleField from './ui/ParticleField'
+import useMotionReady from '../hooks/useMotionReady'
 
 const WORD = 'TECHFEST'
 
@@ -26,6 +27,7 @@ const letter = {
 export default function Hero() {
   const sectionRef = useRef(null)
   const reduce = useReducedMotion()
+  const motionReady = useMotionReady()
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -88,7 +90,7 @@ export default function Hero() {
         className="relative z-10 mx-auto w-full max-w-[1320px] px-5 text-center sm:px-8"
       >
         <motion.div
-          initial={reduce ? { opacity: 0 } : { opacity: 0, y: 12 }}
+          initial={motionReady ? { opacity: 0, y: 12 } : false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
           className="mx-auto inline-flex flex-wrap items-center justify-center gap-x-3 gap-y-2 border border-line bg-white/[0.03] px-4 py-2 backdrop-blur-sm"
@@ -112,7 +114,7 @@ export default function Hero() {
           <motion.span
             aria-hidden="true"
             variants={letterParent}
-            initial={reduce ? false : 'hidden'}
+            initial={motionReady ? 'hidden' : false}
             animate="show"
             className="flex justify-center font-display text-[clamp(2.85rem,15.1vw,13.5rem)] font-semibold leading-[0.85] tracking-[-0.045em] text-chalk"
           >
@@ -125,7 +127,7 @@ export default function Hero() {
         </h1>
 
         <motion.div
-          initial={reduce ? { opacity: 0 } : { opacity: 0, y: 16 }}
+          initial={motionReady ? { opacity: 0, y: 16 } : false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.6, ease: [0.16, 1, 0.3, 1] }}
           className="mt-3 flex flex-col items-center gap-4 sm:mt-4"
@@ -145,7 +147,7 @@ export default function Hero() {
         </motion.div>
 
         <motion.p
-          initial={reduce ? { opacity: 0 } : { opacity: 0, y: 16 }}
+          initial={motionReady ? { opacity: 0, y: 16 } : false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.72, ease: [0.16, 1, 0.3, 1] }}
           className="mx-auto mt-5 max-w-xl text-[14.5px] leading-relaxed text-ash sm:mt-6 sm:text-[15.5px]"
@@ -155,7 +157,7 @@ export default function Hero() {
         </motion.p>
 
         <motion.div
-          initial={reduce ? { opacity: 0 } : { opacity: 0, y: 16 }}
+          initial={motionReady ? { opacity: 0, y: 16 } : false}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.82, ease: [0.16, 1, 0.3, 1] }}
           className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4"
@@ -169,7 +171,7 @@ export default function Hero() {
         </motion.div>
 
         <motion.div
-          initial={reduce ? { opacity: 0 } : { opacity: 0 }}
+          initial={motionReady ? { opacity: 0 } : false}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 1 }}
           className="mt-9 flex flex-col items-center justify-center gap-3 border-t border-line/70 pt-6 sm:mt-10 sm:flex-row sm:gap-6"

@@ -1,10 +1,12 @@
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion } from 'framer-motion'
+import useMotionReady from '../../hooks/useMotionReady'
 
 const EASE = [0.16, 1, 0.3, 1]
 
 /**
- * Scroll-triggered entrance. Collapses to a plain fade when the visitor has
- * asked for reduced motion, and never re-runs once seen.
+ * Scroll-triggered entrance. Renders at its final state when animations cannot
+ * run (reduced motion, or a background tab whose timeline is frozen), and never
+ * re-runs once seen.
  */
 export default function Reveal({
   children,
@@ -15,16 +17,16 @@ export default function Reveal({
   className,
   ...rest
 }) {
-  const reduce = useReducedMotion()
+  const motionReady = useMotionReady()
   const Component = motion[as] ?? motion.div
 
   return (
     <Component
       className={className}
-      initial={reduce ? { opacity: 0 } : { opacity: 0, y }}
+      initial={motionReady ? { opacity: 0, y } : false}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-70px' }}
-      transition={{ duration: reduce ? 0.35 : duration, delay: reduce ? 0 : delay, ease: EASE }}
+      transition={{ duration, delay, ease: EASE }}
       {...rest}
     >
       {children}

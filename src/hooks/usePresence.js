@@ -15,9 +15,14 @@ export default function usePresence(open, duration = 240) {
   useEffect(() => {
     if (open) {
       setMounted(true)
-      // Reveal on the next frame so the browser paints the "enter" state first.
+      // Reveal on the next frame so the browser paints the "enter" state
+      // first. The timer is a fallback: rAF is suspended in background tabs.
       const frame = requestAnimationFrame(() => setVisible(true))
-      return () => cancelAnimationFrame(frame)
+      const timer = window.setTimeout(() => setVisible(true), 80)
+      return () => {
+        cancelAnimationFrame(frame)
+        window.clearTimeout(timer)
+      }
     }
 
     setVisible(false)
