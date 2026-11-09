@@ -175,6 +175,31 @@ netlify deploy --prod --dir=dist
 All navigation is in-page (`#section` anchors) and every external link is absolute, so no SPA
 rewrite rules are required.
 
+### Publishing to GitHub
+
+This repository is already initialised with a `main` branch and an initial commit, so no `git init`
+or first commit is needed. Create an **empty** repository on GitHub — no README, licence or
+`.gitignore`, or the first push will conflict — then:
+
+```bash
+# once per machine, if you have not already set an identity
+git config user.name "Your Name"
+git config user.email "you@example.com"
+
+git remote add origin https://github.com/<your-username>/<repo-name>.git
+git push -u origin main
+```
+
+On Windows the `manager` credential helper may open a browser window once to authorise the push.
+`node_modules/`, `dist/` and `dev.log` are ignored, so the push contains only source. Commit any
+later edits before pushing:
+
+```bash
+git add -A
+git commit -m "Describe the change"
+git push
+```
+
 ---
 
 ## Screenshots
